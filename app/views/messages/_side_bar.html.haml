@@ -3,13 +3,13 @@
   .side-bar__left-header
     .side-bar__left-header__list
       .side-bar__left-header__list__user-name
-        jin
+        = current_user.name
       .side-bar__left-header__list__icon
         .edit_icon
           = link_to "#", class: "edit_icon" do
             = icon('far', 'edit')
         .gear_icon
-          = link_to "#", class: "gear_icon" do
+          = link_to edit_user_path(current_user),class: "gear_icon" do
             = icon('fas', 'cog')
 
   .side-bar__group-list
