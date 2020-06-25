@@ -6,14 +6,17 @@
         = current_user.name
       .side-bar__left-header__list__icon
         .edit_icon
-          = link_to "#", class: "edit_icon" do
+          = link_to new_group_path, class: "edit_icon" do
             = icon('far', 'edit')
         .gear_icon
           = link_to edit_user_path(current_user),class: "gear_icon" do
             = icon('fas', 'cog')
 
   .side-bar__group-list
-    .side-bar__group-list__name
-      techcamp
-    .side-bar__group-list__message
-      まだコメントはありません
+    - current_user.groups.each do |group|
+      .side-bar__group-list__box
+        = link_to '#' do
+          .side-bar__group-list__name
+            = group.name
+          .side-bar__group-list__message
+            まだコメントはありません
