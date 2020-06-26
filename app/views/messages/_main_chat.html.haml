@@ -3,33 +3,25 @@
   .main-chat__right-header
     .main-chat__right-header__group
       .main-chat__right-header__group__name
-        techcamp
-      .main-chat__right-header__group__member
-        Member : jin
+        = @group.name
+      .main-chat__right-header__group__list
+        .main-chat__right-header__group__list__fixed-phrase
+          Member : 
+        .main-chat__right-header__group__list__member
+        - @group.users.each do |users|
+          = users.name
     .main-chat__right-header__edit-btn
-      = link_to "#", class: "edit-btn" do
+      = link_to edit_group_path(@group), class: "edit" do
         Edit
 
   .main-chat__message-list
-    .main-chat__message-list__box
-      .main-chat__message-list__box__infomation
-        .main-chat__message-list__box__infomation__name
-          jin
-        .main-chat__message-list__box__infomation__date
-          2020年06月24日 10時55分
-      .main-chat__message-list__box__comment
-        まだコメントはありません
-      
-  .main-chat__message-form
-    .main-chat__message-form__box
-      .main-chat__message-form__box__input
-        .main-chat__message-form__box__input__text
-          %input{"placeholder": "type a message",class: "message", "type": "text"}
-        .main-chat__message-form__box__input__photo
-          %label{class: "input-box__image"}
-            = icon('fas', 'image')
-            %input{type: "file", class: "hidden"}
+    = render @messages
 
-      .main-chat__message-form__box__submit
-        Send
-        
+  .Footer
+    = form_with model: [@group, @message], html: {class: "Form"}, local: true do |f|
+      .Form__contents
+        = f.text_field :content, class: 'Message', placeholder: 'type a message'
+        = f.label :image, class: 'Image' do
+          = icon('far', 'image', class: 'Icon')
+          = f.file_field :image, class: 'Hidden'
+      = f.submit 'Send', class: 'Submit'
