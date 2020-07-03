@@ -2,26 +2,7 @@ $(function(){
   function buildHTML(message){
     if ( message.image ) {
       let html =
-        `<div class="MessageBox" data-message-id=${message.id}>
-          <div class="main-chat__message-list__box__infomation">
-            <div class="Mmain-chat__message-list__box__infomation__name">
-              ${message.user_name}
-            </div>
-            <div class="main-chat__message-list__box__infomation__date">
-              ${message.created_at}
-            </div>
-          </div>
-          <div class="main-chat__message-list__box__comment">
-            <p class="main-chat__message-list__box__comment__content">
-              ${message.content}
-            </p>
-            <img class="Image" src="${message.image}">
-          </div>
-        </div>`
-      return html;
-    } else {
-      let html =
-      `<div class="MessageBox" data-message-id=${message.id}>
+      `<div class="main-chat__message-list__box" data-message-id=${message.id}>
         <div class="main-chat__message-list__box__infomation">
           <div class="main-chat__message-list__box__infomation__name">
             ${message.user_name}
@@ -34,15 +15,35 @@ $(function(){
           <p class="main-chat__message-list__box__comment__content">
             ${message.content}
           </p>
+          <img class="Image" src="${message.image}">
         </div>
       </div>`
+    return html;
+  } else {
+    let html =
+    `<div class="main-chat__message-list__box" data-message-id=${message.id}>
+      <div class="main-chat__message-list__box__infomation">
+        <div class="main-chat__message-list__box__infomation__name">
+          ${message.user_name}
+        </div>
+        <div class="main-chat__message-list__box__infomation__date">
+          ${message.created_at}
+        </div>
+      </div>
+      <div class="main-chat__message-list__box__comment">
+        <p class="main-chat__message-list__box__comment__content">
+          ${message.content}
+        </p>
+      </div>
+    </div>`
       return html;
     };
   }
 
   let reloadMessages = function() {
     //カスタムデータ属性を利用し、ブラウザに表示されている最新メッセージのidを取得
-    let last_message_id = $('.MessageBox:last').data("message-id");
+    let last_message_id = $('.main-chat__message-list__box:last').data("message-id");
+    console.log(last_message_id)
     $.ajax({
       //ルーティングで設定した通り/groups/id番号/api/messagesとなるよう文字列を書く
       url: "api/messages",
@@ -53,6 +54,7 @@ $(function(){
       data: {id: last_message_id}
     })
     .done(function(messages) {
+      console.log(messages)
       // 更新するメッセージがなかった場合は.doneの後の処理が動かないようにする
       if (messages.length !== 0) {
         //追加するHTMLの入れ物を作る
